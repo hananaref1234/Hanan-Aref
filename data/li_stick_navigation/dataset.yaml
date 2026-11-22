@@ -1,0 +1,26 @@
+# Li-Stick custom navigation dataset — YOLO definition
+# Taxonomy version: v0.2
+# Dataset version: li-stick-navigation-v0.2
+# v0.1 detector classes stairs_up/stairs_down/curb_up/curb_down were replaced
+# by semantic stairs/curb. Direction is not a detector label.
+
+path: .
+train: images/train
+val: images/val
+test: images/test
+
+taxonomy_version: v0.2
+
+names:
+  0: pole
+  1: bollard
+  2: stairs
+  3: curb
+  4: open_doorway
+  5: closed_door
+  6: barrier
+  7: drop_off
+  8: pothole
+  9: low_overhead_obstacle
+  10: wall
+  11: tree_trunk

@@ -1,0 +1,4 @@
+filename,split,video_id,session_id,location_id,sequence_id,frame_index,notes
+# Copy this file to metadata.csv and fill one row per image.
+# Keep every frame from the same video_id / sequence_id in a single split.
+# example_walk01_000123.jpg,train,walk01,2026-08-17-a,campus-north,walk01,123,daylight sidewalk
