@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 24
+names: ['barricade', 'bicycle', 'blind block', 'bollard', 'bus', 'car', 'cone', 'cracked_pavement', 'curb', 'fire_hydrant', 'jeep', 'kiosk', 'motorcycle', 'movable_signage', 'pedestrian', 'person', 'pole', 'potted_plant', 'stairs', 'traffic_light', 'traffic_sign', 'tree_trunk', 'truck', 'van']
+
+roboflow:
+  workspace: cezar-khatib
+  project: sidewalk-barriers-o371b
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/cezar-khatib/sidewalk-barriers-o371b/dataset/1
