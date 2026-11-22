@@ -1,0 +1,37 @@
+# Experimental combined detector: li-stick-navigation-v0.3-combined
+# Six custom hazards + seven generic classes. Does not overwrite Exp1/Exp2/Exp2b.
+
+model:
+  base_model: "yolo26n.pt"
+
+training:
+  epochs: 100
+  image_size: 640
+  batch_size: 16
+  patience: 20
+  device: "auto"
+  workers: 4
+
+dataset:
+  yaml: "data/training/li_stick_v03_combined/dataset.yaml"
+
+output:
+  project: "runs/li_stick"
+  name: "v03_combined"
+  register: "models/li_stick_navigation_v0.3_combined.pt"
+  class_map: "models/li_stick_navigation_v0.3_combined.class_map.yaml"
+
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.40
+  hsv_v: 0.40
+  degrees: 5.0
+  translate: 0.08
+  scale: 0.20
+  shear: 0.0
+  perspective: 0.0004
+  fliplr: 0.50
+  flipud: 0.0
+  mosaic: 0.20
+  mixup: 0.0
+  erasing: 0.08

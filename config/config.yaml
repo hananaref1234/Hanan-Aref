@@ -1,0 +1,35 @@
+camera:
+  backend: "opencv"
+  device: 0
+  width: 1280
+  height: 720
+  fps: 30
+
+detector:
+  model_path: "yolo26n.pt"
+  confidence_threshold: 0.50
+  image_size: 640
+  use_class_filter: true
+
+visualization:
+  enabled: true
+  show_fps: true
+  show_latency: true
+  show_direction_zones: true
+
+tracking:
+  enabled: true
+  tracker: "bytetrack"
+  confirmation_frames: 3
+  max_missing_frames: 5
+  confidence_smoothing_alpha: 0.4
+  direction_history_size: 5
+
+events:
+  suppress_duplicates: true
+  duplicate_cooldown_seconds: 3.0
+  emit_direction_changes: true
+  log_lost_tracks: true
+
+logging:
+  level: "INFO"

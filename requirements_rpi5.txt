@@ -1,0 +1,32 @@
+# Raspberry Pi 5 RUNTIME dependencies only.
+# Do NOT install training, dataset, or Roboflow dependencies on the Pi.
+#
+# Installation:
+#   python -m venv .venv
+#   source .venv/bin/activate
+#   pip install --upgrade pip
+#   pip install -r requirements_rpi5.txt
+#
+# Picamera2 must be installed via apt (NOT pip):
+#   sudo apt update
+#   sudo apt install python3-picamera2 python3-libcamera libcamera-apps
+#   Then inside your venv, if you need picamera2 accessible:
+#   pip install picamera2 --no-deps  # only if apt package is not on venv path
+#   (usually apt install is sufficient when using --system-site-packages venv)
+#
+# Recommended venv creation for Pi (inherits system Picamera2):
+#   python3 -m venv .venv --system-site-packages
+#   source .venv/bin/activate
+
+# Core inference
+ultralytics
+
+# Headless OpenCV (no GUI/Qt dependencies)
+opencv-python-headless
+
+# Config and utilities
+numpy
+PyYAML
+
+# ByteTrack dependency (same as desktop)
+lap
