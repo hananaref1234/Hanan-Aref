@@ -1,0 +1,39 @@
+# Experimental six-class hazard training run: li-stick-navigation-v0.2-exp2
+# Does not replace config/training.yaml or Exp1.
+# Derived dataset: data/training/li_stick_v02_exp2/
+# Training IDs: 0=pole, 1=bollard, 2=stairs, 3=curb, 4=barrier, 5=tree_trunk
+
+model:
+  base_model: "yolo26n.pt"
+
+training:
+  epochs: 100
+  image_size: 640
+  batch_size: 16
+  patience: 20
+  device: "auto"
+  workers: 4
+
+dataset:
+  yaml: "data/training/li_stick_v02_exp2/dataset.yaml"
+
+output:
+  project: "runs/li_stick"
+  name: "v02_exp2"
+  register: "models/li_stick_navigation_v0.2_exp2.pt"
+  class_map: "models/li_stick_navigation_v0.2_exp2.class_map.yaml"
+
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.40
+  hsv_v: 0.40
+  degrees: 5.0
+  translate: 0.08
+  scale: 0.20
+  shear: 0.0
+  perspective: 0.0004
+  fliplr: 0.50
+  flipud: 0.0
+  mosaic: 0.20
+  mixup: 0.0
+  erasing: 0.08

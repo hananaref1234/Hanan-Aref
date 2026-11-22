@@ -1,0 +1,36 @@
+model:
+  # Lightweight transfer-learning start. Raspberry Pi 5 cannot afford a huge detector.
+  base_model: "yolo26n.pt"
+
+training:
+  epochs: 100
+  image_size: 640
+  batch_size: 16
+  patience: 20
+  # auto = CUDA GPU if present, otherwise CPU. Never assumes a GPU.
+  device: "auto"
+  workers: 2
+
+dataset:
+  yaml: "data/li_stick_navigation/dataset.yaml"
+
+output:
+  project: "runs/li_stick"
+  name: "navigation_v1"
+
+# Conservative geometry-preserving augmentations.
+# flipud is forced to 0: vertical flips reverse stairs/curb direction classes.
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.40
+  hsv_v: 0.40
+  degrees: 5.0
+  translate: 0.08
+  scale: 0.25
+  shear: 0.0
+  perspective: 0.0004
+  fliplr: 0.50
+  flipud: 0.0
+  mosaic: 0.30
+  mixup: 0.0
+  erasing: 0.15

@@ -1,0 +1,10 @@
+# Class filter for the v0.2-exp2b six-class hazard checkpoint.
+# ObjectDetector remaps training IDs to global Li-Stick IDs via
+# models/li_stick_navigation_v0.2_exp2b.class_map.yaml.
+allowed_classes:
+  - pole
+  - bollard
+  - stairs
+  - curb
+  - barrier
+  - tree_trunk
