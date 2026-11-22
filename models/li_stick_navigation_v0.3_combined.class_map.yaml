@@ -1,0 +1,100 @@
+model_version: li-stick-navigation-v0.3-combined
+taxonomy_version: v0.2
+dataset_version: li-stick-navigation-v0.3-combined
+trained_classes:
+- pole
+- bollard
+- stairs
+- curb
+- barrier
+- tree_trunk
+- person
+- bicycle
+- car
+- motorcycle
+- bus
+- truck
+- chair
+training_to_global:
+  '0':
+    name: pole
+    global_id: 0
+  '1':
+    name: bollard
+    global_id: 1
+  '2':
+    name: stairs
+    global_id: 2
+  '3':
+    name: curb
+    global_id: 3
+  '4':
+    name: barrier
+    global_id: 6
+  '5':
+    name: tree_trunk
+    global_id: 11
+  '6':
+    name: person
+    global_id: 12
+  '7':
+    name: bicycle
+    global_id: 13
+  '8':
+    name: car
+    global_id: 14
+  '9':
+    name: motorcycle
+    global_id: 15
+  '10':
+    name: bus
+    global_id: 16
+  '11':
+    name: truck
+    global_id: 17
+  '12':
+    name: chair
+    global_id: 18
+global_to_training:
+  '0':
+    name: pole
+    training_id: 0
+  '1':
+    name: bollard
+    training_id: 1
+  '2':
+    name: stairs
+    training_id: 2
+  '3':
+    name: curb
+    training_id: 3
+  '6':
+    name: barrier
+    training_id: 4
+  '11':
+    name: tree_trunk
+    training_id: 5
+  '12':
+    name: person
+    training_id: 6
+  '13':
+    name: bicycle
+    training_id: 7
+  '14':
+    name: car
+    training_id: 8
+  '15':
+    name: motorcycle
+    training_id: 9
+  '16':
+    name: bus
+    training_id: 10
+  '17':
+    name: truck
+    training_id: 11
+  '18':
+    name: chair
+    training_id: 12
+notes: Training IDs are contiguous for Ultralytics. Custom global IDs 0–11 match taxonomy
+  v0.2 in data/li_stick_navigation/dataset.yaml. Generic global IDs start at 12. This
+  file does not change the project-wide custom taxonomy.
