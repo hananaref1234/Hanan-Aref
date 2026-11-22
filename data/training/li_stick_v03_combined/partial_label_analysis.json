@@ -1,0 +1,16 @@
+{
+  "strategy": "Same-image merge of Roboflow generic labels onto approved custom Roboflow images; extra Roboflow images only if the source file has no pole/bollard/barricade/tree_trunk/stairs/curb labels; COCO chair images keep other selected COCO generics on the same image.",
+  "accessibility_barriers_images": 1759,
+  "accessibility_barriers_unlabeled_generics": "HIGH residual risk. Accessibility Barriers labels are stairs/curb only. People, chairs, and vehicles that appear in those photos are not labeled and may be treated as background.",
+  "roboflow_custom_images": 1327,
+  "roboflow_custom_with_imported_generics": 390,
+  "roboflow_custom_with_source_generic_labels": 390,
+  "roboflow_custom_without_imported_generics": 937,
+  "unlabeled_generic_on_included_roboflow_custom": 0,
+  "extra_roboflow_generic_only_images": 7015,
+  "unlabeled_custom_on_extra_generic_images": 0,
+  "coco_images": 830,
+  "coco_unlabeled_custom_hazards": "COCO chair images do not label pole/bollard/stairs/curb/barrier/tree_trunk. Indoor chair photos make unlabeled sidewalk hazards less likely, but any outdoor COCO scene still has this risk.",
+  "pending_poles_on_custom_images": "1,418 pole staging rows remain PENDING and are not in this dataset. Some Roboflow images may still contain unlabeled poles.",
+  "recommendation": "Partial labels are unavoidable for Accessibility Barriers. Do not drop those stairs/curb images. Prefer the same-image Roboflow merge (applied). Do not train a second detector. Monitor person/car false positives on indoor stairs photos. Future work: ignore-regions or person labels on Accessibility Barriers."
+}

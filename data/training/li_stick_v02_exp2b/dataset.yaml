@@ -1,0 +1,21 @@
+# Derived Ultralytics training view -- do not treat as the canonical taxonomy.
+# Canonical dataset: data/li_stick_navigation/ (taxonomy v0.2)
+# Model version: li-stick-navigation-v0.2-exp2b
+# Training IDs are remapped; see class_map.yaml.
+
+path: C:/Users/cezar/Desktop/li_stick_ai/data/training/li_stick_v02_exp2b
+train: images/train
+val: images/val
+test: images/test
+
+taxonomy_version: v0.2
+dataset_version: li-stick-navigation-v0.2
+training_view: li-stick-navigation-v0.2-exp2b
+
+names:
+  0: pole
+  1: bollard
+  2: stairs
+  3: curb
+  4: barrier
+  5: tree_trunk
