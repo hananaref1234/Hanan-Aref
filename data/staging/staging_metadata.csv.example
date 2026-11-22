@@ -1,0 +1,2 @@
+sample_id,source_dataset,source_image,source_split,original_class,mapped_class,mapping_type,review_status,sequence_id,license,proposed_class,taxonomy,conversion_method,original_annotation,staging_image,staging_label,notes
+# Created by scripts/import_source.py. Do not hand-edit column names.

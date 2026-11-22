@@ -1,0 +1,51 @@
+model_version: li-stick-navigation-v0.2-exp2b
+taxonomy_version: v0.2
+dataset_version: li-stick-navigation-v0.2
+trained_classes:
+- pole
+- bollard
+- stairs
+- curb
+- barrier
+- tree_trunk
+training_to_global:
+  '0':
+    name: pole
+    global_id: 0
+  '1':
+    name: bollard
+    global_id: 1
+  '2':
+    name: stairs
+    global_id: 2
+  '3':
+    name: curb
+    global_id: 3
+  '4':
+    name: barrier
+    global_id: 6
+  '5':
+    name: tree_trunk
+    global_id: 11
+global_to_training:
+  '0':
+    name: pole
+    training_id: 0
+  '1':
+    name: bollard
+    training_id: 1
+  '2':
+    name: stairs
+    training_id: 2
+  '3':
+    name: curb
+    training_id: 3
+  '6':
+    name: barrier
+    training_id: 4
+  '11':
+    name: tree_trunk
+    training_id: 5
+notes: Training IDs are contiguous for Ultralytics. Global IDs match taxonomy v0.2
+  in data/li_stick_navigation/dataset.yaml. This file does not change the project-wide
+  taxonomy.

@@ -1,0 +1,525 @@
+# Li-Stick dataset source manifest.
+# Never mark a source APPROVED unless both license and mapping are verified.
+# Status values: APPROVED | MANUAL_DOWNLOAD_REQUIRED | MANUAL_REVIEW_REQUIRED
+#                LICENSE_REVIEW_REQUIRED | REJECTED
+#
+# date_accessed: 2026-08-18
+# No source in this file is APPROVED. SideGuide raw files are still absent.
+
+sources:
+  - name: sideguide
+    official_url: https://ytaek-oh.github.io/sideguide
+    license: sideguide_terms_noncommercial_research_no_redistribution
+    license_url: https://docs.google.com/forms/d/e/1FAIpQLScBmoVoj0d-omBOVCHGjhRislXP0TYzRqaUJOmJcqN6ylQcxQ/viewform
+    date_accessed: "2026-08-18"
+    download_method: request_form
+    annotation_format: >
+      Published bbox/polygon labels are CSV (image id/name/width/height, label,
+      occluded, xtl/ytl, xbr/ybr, z_order; polygon points for the mask subset).
+      On-disk archive names are unknown until the authors send the download link.
+      The current importer parses JSON (COCO or simple boxes); CSV support must
+      be added after the official files are placed on disk, not before.
+    source_classes:
+      - pole
+      - bollard
+      - tree trunk
+      - barricade
+      - chair
+      - table
+      - person
+      - bicycle
+      - motorcycle
+      - car
+      - wheelchair
+      - stroller
+    listick_mapping:
+      pole: {target: pole, mapping_type: DIRECT, auto: true}
+      bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+      tree trunk: {target: tree_trunk, mapping_type: DIRECT, auto: true}
+      barricade: {target: barrier, mapping_type: SEMANTIC_REVIEW, auto: false}
+      person: {target: person, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      bicycle: {target: bicycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      motorcycle: {target: motorcycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      car: {target: car, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      chair: {target: chair, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      table: {target: null, mapping_type: CUSTOM, auto: false}
+      wheelchair: {target: null, mapping_type: CUSTOM, auto: false}
+      stroller: {target: null, mapping_type: CUSTOM, auto: false}
+    status: MANUAL_DOWNLOAD_REQUIRED
+    notes: >
+      NOT APPROVED FOR LI-STICK USE (2026-08-18). SideGuide remains unavailable and
+      must not be imported unless access and licensing are later explicitly approved.
+      Inspected 2026-08-18: data/raw/sideguide/ contains only README.md. No images,
+      no CSV/JSON annotations, no archives. Exp2 training is blocked until a
+      legitimate official release is placed here. Do not scrape, fabricate, or
+      substitute another dataset. Published scale (IROS 2020 / Testworks datasheet):
+      bbox set train 249K / val 37K / test 67K images (~350K total, ~3.38M boxes);
+      polygon and stereo subsets are not required for Exp2. Candidate Exp2 source
+      classes: pole, bollard, tree trunk, barricade (barricade stays SEMANTIC_REVIEW).
+      Official form terms (2026-08-18): non-commercial research only; academic
+      email required; no copy/distribute/sell of the dataset or derived data;
+      Korean law; cite Park et al. IROS 2020. This source is still not APPROVED.
+      Contact after the form: datahub@aiworkx.ai. Korean AI-Hub listing may be
+      restricted to domestic users; do not bypass that portal either.
+    request_url: https://docs.google.com/forms/d/e/1FAIpQLScBmoVoj0d-omBOVCHGjhRislXP0TYzRqaUJOmJcqN6ylQcxQ/viewform
+    raw_dir: data/raw/sideguide
+    disk_space_hint: bbox set ~350K 1920x1080 images plus CSV labels (tens of GB; stereo/polygon extra)
+
+  - name: accessibility_barriers
+    official_url: https://zenodo.org/records/6382090
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    date_accessed: "2026-08-17"
+    download_method: zenodo_zip
+    annotation_format: CVAT XML for images (wm_annotations.xml, bounding boxes plus attributes)
+    source_classes:
+      - stair
+      - step
+      - ramp
+      - grab_bar
+    listick_mapping:
+      stairs: {target: stairs, mapping_type: DIRECT, auto: true}
+      stair: {target: stairs, mapping_type: DIRECT, auto: true}
+      step: {target: null, mapping_type: CUSTOM, auto: false}
+      curb: {target: curb, mapping_type: DIRECT, auto: true}
+      kerb: {target: curb, mapping_type: DIRECT, auto: true}
+      ramp: {target: null, mapping_type: CUSTOM, auto: false}
+      grab bar: {target: null, mapping_type: CUSTOM, auto: false}
+      grab_bar: {target: null, mapping_type: CUSTOM, auto: false}
+    status: MANUAL_REVIEW_REQUIRED
+    notes: >
+      Downloaded 2026-08-17 from the official Zenodo record (not a mirror).
+      File wm_barriers_data.zip = 7972407510 bytes; MD5 d96051ca1339d1c1afa9ac736eabd058 verified.
+      Extracted: 5538 images, 1 CVAT file (wm_annotations.xml), 0 missing images.
+      Observed labels: stair 1492, step 3564 (doorstep 2128, curb 1185, other 251),
+      ramp 143, grab_bar 922. Total annotations 6121.
+      Taxonomy v0.2 maps stair → stairs and step type=curb → curb for the object
+      detector. Direction review is not required for detector training; v0.1
+      STAIRS_*/CURB_* decisions are preserved as direction metadata.
+      doorstep, other steps, ramp, and grab_bar stay UNMAPPED_SOURCE_CLASS.
+    download_url: https://zenodo.org/records/6382090/files/wm_barriers_data.zip
+    raw_dir: data/raw/accessibility_barriers
+    disk_space_hint: "7.97 GB zip; ~8.0 GB extracted images+xml; staging copies extra"
+
+  - name: doordetect
+    official_url: https://github.com/gasparramoa/DoorDetect-Class-Dataset
+    license: unspecified_on_github
+    license_url: https://github.com/gasparramoa/DoorDetect-Class-Dataset
+    date_accessed: "2026-08-17"
+    download_method: google_drive
+    annotation_format: folder-class labels plus optional detection/segmentation masks
+    source_classes:
+      - open
+      - semi-open
+      - closed
+    listick_mapping:
+      open: {target: open_doorway, mapping_type: SEMANTIC_REVIEW, auto: false}
+      closed: {target: closed_door, mapping_type: SEMANTIC_REVIEW, auto: false}
+      semi-open: {target: null, mapping_type: SEMANTIC_REVIEW, auto: false}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Door Detection & Classification dataset (Ramôa et al.). 1206 RGB+depth
+      classification images (468 closed, 588 open, 150 semi-open) and 240
+      detection/segmentation images. Hosted on Google Drive, not git LFS.
+      No LICENSE file is published in the GitHub repository; cite the ICARSC 2020
+      paper if used. An open door is not automatically a traversable open_doorway.
+      Semi-open doors are never auto-mapped. Place files under data/raw/doordetect/.
+    download_url: https://drive.google.com/drive/folders/1iSrPjO-F2aaB7MmsN7tsU1wnLtnO3euK
+    raw_dir: data/raw/doordetect
+    disk_space_hint: unknown (order of 1–2 GB expected)
+
+  - name: cityscapes
+    official_url: https://www.cityscapes-dataset.com/
+    license: Cityscapes non-commercial research license
+    license_url: https://www.cityscapes-dataset.com/license/
+    date_accessed: "2026-08-17"
+    download_method: registration_portal
+    annotation_format: semantic and instance PNG masks (not YOLO boxes)
+    source_classes:
+      - wall
+      - pole
+      - person
+      - car
+      - motorcycle
+      - bicycle
+      - building
+      - fence
+      - sidewalk
+      - road
+      - vegetation
+    listick_mapping:
+      wall: {target: wall, mapping_type: MASK_TO_BOX, auto: false}
+      pole: {target: pole, mapping_type: MASK_TO_BOX, auto: false}
+      person: {target: person, mapping_type: MASK_TO_BOX, auto: false, taxonomy: combined}
+      car: {target: car, mapping_type: MASK_TO_BOX, auto: false, taxonomy: combined}
+      motorcycle: {target: motorcycle, mapping_type: MASK_TO_BOX, auto: false, taxonomy: combined}
+      bicycle: {target: bicycle, mapping_type: MASK_TO_BOX, auto: false, taxonomy: combined}
+      vegetation: {target: null, mapping_type: CUSTOM, auto: false}
+      building: {target: null, mapping_type: CUSTOM, auto: false}
+      fence: {target: null, mapping_type: CUSTOM, auto: false}
+      sidewalk: {target: null, mapping_type: CUSTOM, auto: false}
+      road: {target: null, mapping_type: CUSTOM, auto: false}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Non-commercial academic/personal use; citation required; redistribution of
+      images/labels forbidden. Li-Stick may become a product, so legal review is
+      required before training on this data. wall and pole are semantic classes
+      without instance IDs; boxes would be derived from connected components and
+      lose concave shape, merged adjacent instances, and pixel-precise extent.
+      Never map vegetation to tree_trunk. Register at cityscapes-dataset.com.
+      Place leftImg8bit and gtFine under data/raw/cityscapes/.
+    raw_dir: data/raw/cityscapes
+    disk_space_hint: "~11 GB leftImg8bit train/val/test plus ~0.25–1 GB gtFine"
+
+  - name: pothole
+    official_url: ""
+    license: ""
+    license_url: ""
+    date_accessed: "2026-08-17"
+    download_method: manual_documented_cc_by_4
+    annotation_format: unknown until a specific dataset is selected
+    source_classes:
+      - pothole
+    listick_mapping:
+      pothole: {target: pothole, mapping_type: DIRECT, auto: true}
+    status: MANUAL_REVIEW_REQUIRED
+    notes: >
+      No specific pothole dataset is selected. Do not download an arbitrary
+      Roboflow Universe project just because the name contains "pothole".
+      Before import, fill official_url, dataset title, author/publisher, license
+      (must be clearly documented, CC BY 4.0 preferred), license_url, date
+      accessed, image count, annotation format, and class mapping. Then re-review.
+      Valid pothole boxes map to Li-Stick pothole (10).
+    raw_dir: data/raw/pothole
+    disk_space_hint: unknown until a dataset is chosen
+    selection_required:
+      - source URL
+      - dataset name
+      - author/publisher
+      - license
+      - date accessed
+      - number of images
+      - annotation format
+      - class mapping
+
+  - name: mapillary_vistas
+    official_url: https://www.mapillary.com/dataset/vistas
+    license: CC-BY-NC-SA-4.0 plus Mapillary research-use terms
+    license_url: https://www.mapillary.com/dataset/vistas
+    date_accessed: "2026-08-17"
+    download_method: disabled
+    annotation_format: semantic/instance/panoptic polygons
+    source_classes: []
+    listick_mapping: {}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Potential future source only. Research-use / non-commercial / share-alike
+      restrictions require legal review before any Li-Stick development use.
+      The importer is disabled. Do not download or auto-integrate.
+    raw_dir: data/raw/mapillary_vistas
+    disk_space_hint: not applicable (download disabled)
+
+  - name: listick_camera
+    official_url: local
+    license: first_party
+    license_url: ""
+    date_accessed: "2026-08-17"
+    download_method: first_party_capture
+    annotation_format: YOLO detection labels
+    source_classes: []
+    listick_mapping: {}
+    status: MANUAL_REVIEW_REQUIRED
+    notes: >
+      First-party Raspberry Pi Camera Module V2 NoIR cane footage. Empty until
+      collection begins. Preserve session/video/location IDs for split safety.
+    raw_dir: data/raw/listick_camera
+    disk_space_hint: none yet
+
+  - name: open_images_v7
+    official_url: https://storage.googleapis.com/openimages/web/index.html
+    license: CC-BY-4.0-annotations_CC-BY-2.0-images
+    license_url: https://github.com/openimages/dataset/blob/main/README.md
+    date_accessed: "2026-08-18"
+    download_method: manual_official
+    annotation_format: CSV bbox (600 boxable classes); Ultralytics/FiftyOne export to YOLO
+    source_classes:
+      - Tree
+      - Street light
+      - Fire hydrant
+      - Traffic sign
+      - Stop sign
+    listick_mapping:
+      Tree: {target: null, mapping_type: CUSTOM, auto: false}
+      tree: {target: null, mapping_type: CUSTOM, auto: false}
+      Street light: {target: null, mapping_type: CUSTOM, auto: false}
+      street light: {target: null, mapping_type: CUSTOM, auto: false}
+    status: REJECTED
+    notes: >
+      Researched 2026-08-18 for Exp2 alternatives. Open Images V7 bbox taxonomy has
+      601 classes but NO pole, bollard, barrier, barricade, or tree_trunk. Closest
+      labels: Tree (reject → tree_trunk), Street light (reject → pole), Fire hydrant,
+      Traffic sign. Annotations CC BY 4.0; images CC BY 2.0 with per-image verification
+      caveat. Not useful for Phase 3 pole/bollard/barrier/tree_trunk acquisition.
+      Importer refuses conversion. Do not force semantic mappings.
+    raw_dir: data/raw/open_images_v7
+    disk_space_hint: full bbox train ~561 GB via FiftyOne; not recommended
+
+  - name: timbervision
+    official_url: https://zenodo.org/records/14825846
+    license: CC-BY-NC-SA-4.0
+    license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+    date_accessed: "2026-08-18"
+    download_method: zenodo_zip
+    annotation_format: YOLOv8 instance segmentation + OBB; ~2k RGB images, ~51k trunk components
+    source_classes:
+      - trunk
+      - cut surface
+      - lateral surface
+    listick_mapping:
+      trunk: {target: tree_trunk, mapping_type: SEMANTIC_REVIEW, auto: false}
+      tree trunk: {target: tree_trunk, mapping_type: SEMANTIC_REVIEW, auto: false}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      TimberVision (WACV 2025, AIT). Zenodo timbervision.zip 4.3 GB. CC BY-NC-SA 4.0:
+      non-commercial + share-alike — requires legal review before Li-Stick product use.
+      Domain is forestry harvesting/loading (live and cut logs), NOT sidewalk
+      pedestrian tree_trunk. Do not download or import until license and semantics
+      are approved. GitHub code/models: https://github.com/timbervision/timbervision
+    download_url: https://zenodo.org/records/14825846/files/timbervision.zip
+    raw_dir: data/raw/timbervision
+    disk_space_hint: 4.3 GB zip
+
+  - name: roboflow_sidewalk_barriers
+    official_url: https://universe.roboflow.com/sidewalk-barriers-datasets/sidewalk-barriers
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: >
+      Roboflow Universe YOLO export (mixed 5-field bbox labels and polygon lines
+      that must be converted to axis-aligned boxes for Li-Stick detection).
+    source_classes:
+      - barricade
+      - bollard
+      - pole
+      - tree_trunk
+      - bicycle
+      - bus
+      - car
+      - motorcycle
+      - pedestrian
+      - person
+      - truck
+    listick_mapping:
+      barricade: {target: barrier, mapping_type: SEMANTIC_REVIEW, auto: false}
+      bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+      pole: {target: pole, mapping_type: DIRECT, auto: true}
+      tree_trunk: {target: tree_trunk, mapping_type: DIRECT, auto: true}
+      bicycle: {target: bicycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      bus: {target: bus, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      car: {target: car, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      motorcycle: {target: motorcycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      pedestrian: {target: person, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      person: {target: person, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      truck: {target: truck, mapping_type: DIRECT, auto: false, taxonomy: combined}
+    status: MANUAL_DOWNLOAD_REQUIRED
+    notes: >
+      Priority Roboflow candidate (2026-08-18). Publisher Sidewalk Barriers Datasets.
+      ~24k images. Real on-disk data.yaml (inspected 2026-08-18) includes 24 classes
+      including barricade, bollard, pole, and tree_trunk. The export mixes bbox and
+      polygon labels; polygon rows convert to enclosing boxes with provenance
+      conversion_method=POLYGON_TO_BOX. License CC BY 4.0 documented on Universe.
+      Not APPROVED until human review of barricade→barrier semantics. Deterministic
+      subsample max 2000 instances/class (sample_seed 42). Manual Universe download.
+    raw_dir: data/raw/roboflow_sidewalk_barriers
+    disk_space_hint: large (24k images); download YOLO export only
+    import_classes: [barricade, bollard, pole, tree_trunk]
+    max_instances_per_class: 2000
+    sample_seed: 42
+    publisher: Sidewalk Barriers Datasets
+    published_images: 24000
+
+  - name: roboflow_bollard_v2gn5
+    official_url: https://universe.roboflow.com/project-60htx/bollard-v2gn5
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export
+    source_classes:
+      - bollard
+    listick_mapping:
+      bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+    status: MANUAL_DOWNLOAD_REQUIRED
+    notes: >
+      Publisher project-60htx. ~1153 images (v1). Single class bollard. CC BY 4.0 on
+      Universe. Pedestrian bollard semantics still require spot review before promotion.
+    raw_dir: data/raw/roboflow_bollard_v2gn5
+    disk_space_hint: ~1153 images
+    import_classes: [bollard]
+    max_instances_per_class: 2000
+    sample_seed: 42
+    publisher: project-60htx
+    published_images: 1153
+
+  - name: roboflow_power_pole
+    official_url: https://universe.roboflow.com/power-pole-9gjpa/power-pole-msglw
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export
+    source_classes:
+      - Power-Pole
+      - Electric-Pole
+    listick_mapping:
+      Power-Pole: {target: pole, mapping_type: SEMANTIC_REVIEW, auto: false}
+      Electric-Pole: {target: pole, mapping_type: SEMANTIC_REVIEW, auto: false}
+      power pole: {target: pole, mapping_type: SEMANTIC_REVIEW, auto: false}
+    status: MANUAL_DOWNLOAD_REQUIRED
+    notes: >
+      Publisher Power Pole. ~1.3k–1.7k images. Classes Power-Pole / Electric-Pole are
+      utility structures — NOT auto-mapped to Li-Stick pole (narrow man-made vertical
+      posts on sidewalks). CC BY 4.0 documented. All samples enter semantic review.
+    raw_dir: data/raw/roboflow_power_pole
+    disk_space_hint: ~1.3k images
+    import_classes: [Power-Pole, Electric-Pole]
+    max_instances_per_class: 2000
+    sample_seed: 42
+    publisher: Power Pole
+    published_images: 1300
+
+  - name: roboflow_bollard_nkhwt
+    official_url: https://universe.roboflow.com/safe-walk-bd/bollard-nkhwt
+    license: unspecified_on_universe
+    license_url: https://universe.roboflow.com/safe-walk-bd/bollard-nkhwt
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export
+    source_classes:
+      - Bollard
+      - Construction-barrier
+      - Light-pole
+    listick_mapping:
+      Bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+      Construction-barrier: {target: barrier, mapping_type: SEMANTIC_REVIEW, auto: false}
+      Light-pole: {target: pole, mapping_type: SEMANTIC_REVIEW, auto: false}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Publisher safe walk bd. ~100 images only (2026-08-18 page). License badge NOT
+      visible on Universe page — do not download or import until license is documented.
+      Mixed classes include Construction-barrier and Light-pole (review required).
+    raw_dir: data/raw/roboflow_bollard_nkhwt
+    disk_space_hint: ~100 images
+    publisher: safe walk bd
+    published_images: 100
+
+  - name: roboflow_asset_model
+    official_url: https://universe.roboflow.com/anpr-f7lrb/asset_model-cvsgo
+    license: unspecified_on_universe
+    license_url: https://universe.roboflow.com/anpr-f7lrb/asset_model-cvsgo
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export
+    source_classes:
+      - Barrier
+      - Bollard
+    listick_mapping:
+      Barrier: {target: barrier, mapping_type: SEMANTIC_REVIEW, auto: false}
+      Bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Publisher anpr. ~900 images. Classes Barrier, Bollard, FireExt. License NOT
+      displayed on Universe page (2026-08-18). Blocked until license verified.
+    raw_dir: data/raw/roboflow_asset_model
+    disk_space_hint: ~900 images
+    publisher: anpr
+    published_images: 900
+
+  - name: roboflow_bollards_crosswalk_stairs
+    official_url: https://universe.roboflow.com/esera/bollards-crosswalk-stairs
+    license: unspecified_on_universe
+    license_url: https://universe.roboflow.com/esera/bollards-crosswalk-stairs
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export
+    source_classes:
+      - Bollard
+      - downstairs
+      - upstairs
+    listick_mapping:
+      Bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+    status: LICENSE_REVIEW_REQUIRED
+    notes: >
+      Publisher esera. ~839 images. License not shown on Universe. Contains stairs
+      classes — excluded (keep Accessibility Barriers stairs/curb). Blocked pending
+      license documentation.
+    raw_dir: data/raw/roboflow_bollards_crosswalk_stairs
+    disk_space_hint: ~839 images
+    import_classes: [Bollard]
+    publisher: esera
+    published_images: 839
+
+  - name: roboflow_sideguide_scottsdale
+    official_url: https://universe.roboflow.com/scottsdale/sideguide
+    license: unspecified_sideguide_derivative
+    license_url: https://universe.roboflow.com/scottsdale/sideguide
+    date_accessed: "2026-08-18"
+    download_method: roboflow_universe_manual
+    annotation_format: Roboflow Universe YOLO export (SideGuide-derived)
+    source_classes:
+      - barricade
+      - bollard
+      - tree_trunk
+    listick_mapping:
+      barricade: {target: barrier, mapping_type: SEMANTIC_REVIEW, auto: false}
+      bollard: {target: bollard, mapping_type: DIRECT, auto: true}
+      tree_trunk: {target: tree_trunk, mapping_type: DIRECT, auto: true}
+    status: REJECTED
+    notes: >
+      REJECTED. Appears to be a SideGuide-derived Roboflow re-export (~6.4k images).
+      SideGuide is NOT approved for Li-Stick. Do not download or import regardless
+      of Roboflow availability.
+    raw_dir: data/raw/roboflow_sideguide_scottsdale
+    disk_space_hint: ~6400 images
+    publisher: Scottsdale
+    published_images: 6400
+
+  - name: coco_2017
+    official_url: https://cocodataset.org/#download
+    license: CC-BY-4.0-annotations_flickr_images
+    license_url: https://cocodataset.org/#termsofuse
+    date_accessed: "2026-08-18"
+    download_method: official_cocodataset_org
+    annotation_format: COCO instances JSON (bbox xywh pixels); converted to YOLO for a filtered subset
+    source_classes:
+      - person
+      - bicycle
+      - car
+      - motorcycle
+      - bus
+      - truck
+      - chair
+    listick_mapping:
+      person: {target: person, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      bicycle: {target: bicycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      car: {target: car, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      motorcycle: {target: motorcycle, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      bus: {target: bus, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      truck: {target: truck, mapping_type: DIRECT, auto: false, taxonomy: combined}
+      chair: {target: chair, mapping_type: DIRECT, auto: false, taxonomy: combined}
+    status: MANUAL_DOWNLOAD_REQUIRED
+    notes: >
+      Official COCO 2017 from images.cocodataset.org (same pretrained ecosystem as
+      yolo26n.pt). Used only for a filtered v0.3-combined generic subset, primarily
+      chair (absent from Roboflow Sidewalk Barriers). Do not ingest all 80 COCO
+      classes. Annotations CC BY 4.0; images are Flickr photos with per-image
+      licenses recorded by COCO. Custom Li-Stick hazards are unlabeled on COCO
+      images (partial-label risk documented in the combined training view).
+    download_url: http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+    raw_dir: data/raw/coco_2017_generic_subset
+    disk_space_hint: "annotations zip ~241 MB plus a few thousand selected JPEGs"
+    selected_generic_classes: [person, bicycle, car, motorcycle, bus, truck, chair]
+    primary_class: chair
+    max_chair_instances: 2000
+    sample_seed: 42
