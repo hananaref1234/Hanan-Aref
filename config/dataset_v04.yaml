@@ -1,0 +1,19 @@
+# Example only: actual images and labels MUST be supplied and audited.
+path: /replace/with/absolute/dataset/path
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: pole
+  1: bollard
+  2: stairs
+  3: curb
+  4: barrier
+  5: tree_trunk
+  6: person
+  7: bicycle
+  8: car
+  9: motorcycle
+  10: bus
+  11: truck
+  12: chair
